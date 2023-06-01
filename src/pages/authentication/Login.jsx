@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogin } from "../../features/auth/authSlice";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
@@ -103,7 +103,6 @@ const Login = () => {
                   htmlFor="Password"
                   value="Password"
                 />
-
                 <TextInput
                   type={"password"}
                   placeholder="enter 8 character or more"

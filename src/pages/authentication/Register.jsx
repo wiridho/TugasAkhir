@@ -1,4 +1,4 @@
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import { Label, TextInput, Button } from "flowbite-react";
 import { handleRegister } from "../../features/auth/authSlice";

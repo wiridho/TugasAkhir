@@ -1,40 +1,11 @@
-// /** @type {import('tailwindcss').Config} */
-// export default {
-//   content: [],
-//   theme: {
-//     extend: {},
-//   },
-//   plugins: [],
-// }
-
 /** @type {import('tailwindcss').Config} */
 
-// module.exports = {
-//   content: [
-//     "./src/**/*.{jsx,js}",
-//     "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
-//   ],
-//   theme: {
-//     extend: {
-//       colors: {
-//         primary: "#19A7CE",
-//         secondary: "#113D52",
-//         violet: "#7F5F7B",
-//         third: "#33658a",
-//         grey: "#8E8E8E",
-//         red: "#ff3333",
-//       },
-//       fontFamily: {
-//         inter: ["Inter", "sans-serif"],
-//       },
-//     },
-//   },
-//   plugins: [require("flowbite/plugin")],
-// };
-
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "./node_modules/flowbite/**/*.js"],
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/flowbite/**/*.js",
+  ],
   theme: {
     extend: {
       colors: {
@@ -50,5 +21,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("flowbite/plugin")],
 };
