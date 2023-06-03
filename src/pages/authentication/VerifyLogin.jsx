@@ -16,11 +16,11 @@ const VerifyLogin = () => {
   const data = useSelector((state) => state.auth.data);
   const { messageError, isSuccess } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/homepage");
-    }
-  }, [navigate, isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     navigate("/homepage");
+  //   }
+  // }, [navigate, isSuccess]);
 
   const onSubmit = (e) => {
     e.preventDefault();

@@ -10,14 +10,13 @@ import ForgotPassword from "./pages/authentication/ForgotPassword";
 import VerifyEmail from "./pages/authentication/VerifyEmail";
 import RegisterVerifySucess from "./pages/authentication/RegisterVerifySucess";
 
-
-
 // Lender
 import DashboardLender from "./components/DashboardLender/DashboardLender";
 import Portofolio from "./components/DashboardLender/Portofolio";
 import Pendanaan from "./components/DashboardLender/Pendanaan";
 import Bantuan from "./components/DashboardLender/Bantuan";
 import Beranda from "./components/DashboardLender/Beranda";
+import Lending from "./pages/Lending/Lending";
 // End Lender
 
 function App() {
@@ -38,9 +37,7 @@ function App() {
               <Homepage />
             </PrivateRoute>
           }
-        >
-          
-        </Route> */}
+        ></Route> */}
         {/* VERIFY EMAIL ACCOUNT FROM EMAIL LINK */}
         <Route
           path="/authentication/verification/email/:userId/:token"
@@ -48,6 +45,7 @@ function App() {
         />
         {/* END */}
 
+        <Route path="/lending" element={<Lending />} />
         <Route path="/register" element={<RegisterRoles />} />
         <Route path="register/:roles" element={<Register />} />
         <Route path="/register/success" element={<RegisterVerifySucess />} />

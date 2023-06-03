@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import apiConfig from "../../api/apiConfig";
 import Swal from "sweetalert2";
+import { handleLogin } from "../../service/authService";
 
 const initialState = {
   isSuccess: false,
@@ -24,31 +25,30 @@ export const handleRegister = createAsyncThunk(
         `${apiConfig.baseUrl}/authentication/register`,
         params
       );
-      console.log("response register", response.data.data);
       return response.data.data;
     } catch (err) {
+      console.log("error", err);
       const status = err.response?.status;
       const errorMessage = err.response?.data?.message;
       console.log("status", status);
       console.log("message", errorMessage);
-
       // 409 = Duplicate Email
       if (status === 409) {
-        Swal.fire({
-          title: "Error!",
-          text: errorMessage,
-          icon: "error",
-          confirmButtonText: "Ok",
-        });
+        // Swal.fire({
+        //   title: "Error!",
+        //   text: errorMessage,
+        //   icon: "error",
+        //   confirmButtonText: "Ok",
+        // });
         // Handle specific status code and return an appropriate message value
         return rejectWithValue({ status, message: errorMessage });
       } else {
-        Swal.fire({
-          title: "Error!",
-          text: errorMessage,
-          icon: "error",
-          confirmButtonText: "Ok",
-        });
+        // Swal.fire({
+        //   title: "Error!",
+        //   text: errorMessage,
+        //   icon: "error",
+        //   confirmButtonText: "Ok",
+        // });
         // Reject with the generic error value
         return rejectWithValue({ status, message: errorMessage });
       }
@@ -89,24 +89,24 @@ export const verifyEmailAccount = createAsyncThunk(
 );
 
 // Handle Login
-export const handleLogin = createAsyncThunk(
-  "auth/login",
-  async (params, thunkApi) => {
-    try {
-      const response = await axios.post(
-        `${apiConfig.baseUrl}/authentication/login?action=email-otp`,
-        params
-      );
-      console.log("response login", response.data.data);
-      return response.data.data;
-    } catch (err) {
-      if (err) {
-        const message = err.response.data.message;
-        return thunkApi.rejectWithValue(message);
-      }
-    }
-  }
-);
+// export const handleLogin = createAsyncThunk(
+//   "auth/login",
+//   async (params, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.post(
+//         `${apiConfig.baseUrl}/authentication/login?action=email-otp`,
+//         params
+//       );
+//       console.log("response login", response.data.data);
+//       return response.data.data;
+//     } catch (err) {
+//       if (err) {
+//         const message = err.response.data.message;
+//         return rejectWithValue(message);
+//       }
+//     }
+//   }
+// );
 
 // Handle Login OTP
 export const verifyLoginOtp = createAsyncThunk(
@@ -167,6 +167,7 @@ export const authSlice = createSlice({
         state.isSuccessRegister = false;
       })
       .addCase(handleRegister.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.isLoading = false;
         state.isError = false;
         state.isSuccessRegister = true;

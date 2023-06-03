@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { handleLogin } from "../../features/auth/authSlice";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button, Label, TextInput } from "flowbite-react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import { handleLogin } from "../../service/authService";
 
 const Login = () => {
-  //dispatch
+  const [visibility, setVisibility] = useState(false);
   const dispatch = useDispatch();
-  //navigate
   const navigate = useNavigate();
 
   // Calling useForm
@@ -22,34 +21,7 @@ const Login = () => {
 
   // Handle Submit
   const onSubmit = (data) => {
-    dispatch(handleLogin(data));
-  };
-
-  // Access state form store
-  const { isSuccess } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/verifylogin");
-    }
-  }, [isSuccess, navigate]);
-
-  const TogglePassword = () => {
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    //toggle password
-    function togglePasswordVisibility() {
-      setIsPasswordVisible(true);
-    }
-
-    return (
-      <div onClick={() => togglePasswordVisibility()}>
-        {isPasswordVisible ? (
-          <EyeSlashIcon className="h-6 w-6" />
-        ) : (
-          <EyeIcon className="h-6 w-6" />
-        )}
-      </div>
-    );
+    dispatch(handleLogin({ data, navigate }));
   };
 
   return (
@@ -72,7 +44,7 @@ const Login = () => {
 
           {/* Form */}
           <div className="max-w-[400px] w-full mx-auto bg-gray-50 p-6 px-8 shadow rounded-2xl">
-            <form className="" onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <h1 className="text-xl">Masuk</h1>
               </div>
@@ -104,7 +76,7 @@ const Login = () => {
                   value="Password"
                 />
                 <TextInput
-                  type={"password"}
+                  type={visibility ? "text" : "password"}
                   placeholder="enter 8 character or more"
                   {...register("password", {
                     required: true,
@@ -112,8 +84,8 @@ const Login = () => {
                     pattern:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                   })}
-                  rightIcon={TogglePassword}
-                  // onClick={() => togglePasswordVisibility}
+                  onClick={() => setVisibility(!visibility)}
+                  rightIcon={visibility ? EyeIcon : EyeSlashIcon}
                 />
                 {errors.password?.type === "required" && (
                   <p className="text-red text-xs">This field is required</p>

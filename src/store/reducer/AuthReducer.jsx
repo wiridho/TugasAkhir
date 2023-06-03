@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { handleLogin } from "../../service/authService";
 
 const initialState = {
-  isSuccess: false,
+  isSuccess: null,
   isSuccessRegister: false,
   isLoading: false,
   isError: false,
@@ -22,6 +23,21 @@ const authSlice = createSlice({
     setToken(state, data) {
       state.token = data.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(handleLogin.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(handleLogin.fulfilled, (state, action) => {
+        state.isSuccess = "login";
+        state.data = action.payload;
+      })
+      .addCase(handleLogin.rejected, (state, action) => {
+        state.isError = true;
+        state.messageError = action.payload;
+      });
   },
 });
 
