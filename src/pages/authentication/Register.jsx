@@ -1,33 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
+// import { handleRegister } from "../../features/auth/authSlice";
+import { handleRegister } from "../../service/authService";
 import { Label, TextInput, Button } from "flowbite-react";
-import { handleRegister } from "../../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { toTitleCase } from "../../utils/Format";
 import BackgroundAuth from "../../assets/img/background/login.svg";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
-import { useState } from "react";
 
 const Register = () => {
+  const [visible, setVisible] = useState(false);
+
   const { roles } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const { isSuccess, messageError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/register/success");
-    }
-  }, [isSuccess, navigate]);
+  const { message_error } = useSelector((state) => state.auth);
 
   const onSubmit = (data) => {
     data["roles"] = roles;
-    dispatch(handleRegister(data));
-    setVisible(true);
+    dispatch(handleRegister({ data, setVisible }));
   };
 
   // calling useForm
@@ -62,17 +55,17 @@ const Register = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div>
-              <p className="font-sans text-2xl font-medium pb-3 text-slate-900 ">
-                Daftar sebagai {toTitleCase(roles)}
-              </p>
-            </div>
-            <div>
-              {messageError && (
+              {visible && (
                 <ErrorMessage
-                  message={messageError.message}
-                  status={messageError.status}
+                  message={message_error}
+                  onClose={() => setVisible(false)}
                 />
               )}
+            </div>
+            <div>
+              <p className="font-sans text-2xl font-medium pb-3 text-slate-900 ">
+                Daftar sebagai {roles}
+              </p>
             </div>
             <div className="mb-3">
               <Label
@@ -164,12 +157,12 @@ const Register = () => {
               )}
             </div>
             <div className="pt-2">
-              <Button
+              <button
                 type="submit"
-                className="w-full bg-primary hover:bg-[#146C94] "
+                className="w-full bg-primary hover:bg-[#146C94] text-white text-sm  py-2 px-4 rounded-lg"
               >
                 Daftar
-              </Button>
+              </button>
             </div>
             <div className="flex justify-between">
               <div className="flex items-center">

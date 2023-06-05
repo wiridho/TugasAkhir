@@ -1,7 +1,9 @@
 import React from "react";
+import axios from "axios";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const Lending = () => {
+function Lending() {
   return (
     <div>
       <p>Lending Page</p>
@@ -10,6 +12,6 @@ const Lending = () => {
       <Link to={"/register"}>Register</Link>
     </div>
   );
-};
+}
 
 export default Lending;

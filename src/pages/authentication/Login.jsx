@@ -5,12 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button, Label, TextInput } from "flowbite-react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+// import { handleLogin } from "../../features/auth/authSlice";
 import { handleLogin } from "../../service/authService";
-
 const Login = () => {
   const [visibility, setVisibility] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Calling useForm
   const {

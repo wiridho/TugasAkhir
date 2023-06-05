@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { useSelector } from "react-redux";
 import Register from "./pages/authentication/Register";
@@ -17,41 +17,131 @@ import Pendanaan from "./components/DashboardLender/Pendanaan";
 import Bantuan from "./components/DashboardLender/Bantuan";
 import Beranda from "./components/DashboardLender/Beranda";
 import Lending from "./pages/Lending/Lending";
-// End Lender
+import ProtectRoute from "./components/ProtectRoute/ProtectRoute";
 
 function App() {
+  const { roles, is_auth } = useSelector((state) => state.auth);
+  console.log(is_auth);
+  console.log(roles);
+  let is_public = is_auth ? false : true;
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="funder" element={<DashboardLender />}>
-          <Route path="beranda" element={<Beranda />} />
-          <Route path="portofolio" element={<Portofolio />} />
-          <Route path="pendanaan" element={<Pendanaan />} />
-          <Route path="bantuan" element={<Bantuan />} />
-        </Route>
+        {roles === "lender" && (
+          // Dahboard Lender
+          <>
+            <Route
+              path="*"
+              element={<Navigate to={"/funder"} replace={true} />}
+            />
+            <Route
+              path="/"
+              element={<Navigate to={"/funder"} replace={true} />}
+            />
+            <Route
+              path="funder"
+              element={
+                <ProtectRoute
+                  valid={is_auth}
+                  to={"/login"}
+                  children={<DashboardLender />}
+                />
+              }
+            >
+              <Route path="" element={<Beranda />} />
+              <Route path="beranda" element={<Beranda />} />
+              <Route path="portofolio" element={<Portofolio />} />
+              <Route path="pendanaan" element={<Pendanaan />} />
+              <Route path="bantuan" element={<Bantuan />} />
+            </Route>
+          </>
+        )}
 
-        {/* <Route
-          path="/homepage"
+        {roles === "borrower" && (
+          // Dashboard Borrower
+          <>
+            <Route
+              path="borrower"
+              element={
+                <ProtectRoute
+                  valid={is_auth}
+                  to={"/login"}
+                  children={"Borrower Dashboard"}
+                />
+              }
+            />
+          </>
+        )}
+
+        {/* Public Route */}
+        <Route path="*" element={<Navigate to={"/login"} replace={true} />} />
+        <Route
+          path="/"
+          element={<ProtectRoute valid={is_public} children={<Lending />} />}
+        />
+
+        <Route
+          path="/register"
           element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
-              <Homepage />
-            </PrivateRoute>
+            <ProtectRoute valid={is_public} children={<RegisterRoles />} />
           }
-        ></Route> */}
-        {/* VERIFY EMAIL ACCOUNT FROM EMAIL LINK */}
+        />
+
+        <Route
+          path="/register/:roles"
+          element={<ProtectRoute valid={is_public} children={<Register />} />}
+        />
         <Route
           path="/authentication/verification/email/:userId/:token"
-          element={<VerifyEmail />}
+          element={
+            <ProtectRoute valid={is_public} children={<VerifyEmail />} />
+          }
         />
-        {/* END */}
+        <Route
+          path="/register/success"
+          element={
+            <ProtectRoute
+              valid={is_public}
+              children={<RegisterVerifySucess />}
+            />
+          }
+        />
+        <Route
+          path="/login"
+          element={<ProtectRoute valid={is_public} children={<Login />} />}
+        />
+        <Route
+          path="/verifylogin"
+          element={
+            <ProtectRoute valid={is_public} children={<VerifyLogin />} />
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <ProtectRoute valid={is_public} children={<ForgotPassword />} />
+          }
+        />
 
-        <Route path="/lending" element={<Lending />} />
-        <Route path="/register" element={<RegisterRoles />} />
-        <Route path="register/:roles" element={<Register />} />
-        <Route path="/register/success" element={<RegisterVerifySucess />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/verifylogin" element={<VerifyLogin />} />
-        <Route path="/reset-password" element={<ForgotPassword />} />
+        {/* VERIFY EMAIL ACCOUNT FROM EMAIL LINK */}
+        {/* <Route
+          path="/authentication/verification/email/:userId/:token"
+          element={<VerifyEmail />}
+        /> */}
+        {/* END */}
+        {/* <Route path="/register/success" element={<RegisterVerifySucess />} /> */}
+        {/* <Route path="/login" element={<Login />} /> */}
+        {/* <Route
+          path="/verifylogin"
+          element={
+            <ProtectRoute valid={isPublic} to={"/"}>
+              <VerifyLogin />
+            </ProtectRoute>
+          }
+        /> */}
+        {/* <Route path="/verifylogin" element={<VerifyLogin />} />
+        <Route path="/reset-password" element={<ForgotPassword />} /> */}
       </Routes>
     </BrowserRouter>
   );

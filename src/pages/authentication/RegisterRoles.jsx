@@ -35,11 +35,7 @@ const RegisterRoles = () => {
             </p>
             <div className="flex items-center justify-center gap-2">
               <div className=" bg-white w-[220px] p-[30px] md:flex justify-center shadow-md rounded-lg">
-                <Link
-                  to={{
-                    pathname: "/register/lender",
-                  }}
-                >
+                <Link to={"/register/lender"}>
                   <img src={Lender} className="" alt="Lender_img" />
                   <h1 className="text-lg text-primary">Pemberi Dana</h1>
                   <p className="text-slate-500 md:text-xs">
@@ -48,11 +44,7 @@ const RegisterRoles = () => {
                 </Link>
               </div>
               <div className=" bg-white w-[220px] p-[30px] md:flex justify-center shadow-md rounded-lg">
-                <Link
-                  to={{
-                    pathname: "/register/borrower",
-                  }}
-                >
+                <Link to={"/register/borrower"}>
                   <img src={Borrower} className="" alt="Lender_img" />
                   <h1 className="text-lg text-primary ">Penerima Dana</h1>
                   <p className="text-slate-500 md:text-xs">

@@ -8,5 +8,4 @@ const apiConfig = {
     .VITE_APP_FIREBASE_DEEP_LINK_DOMAIN_URI_PREFIX,
 };
 
-console.log(apiConfig);
 export default apiConfig;

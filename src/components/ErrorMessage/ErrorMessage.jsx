@@ -1,25 +1,24 @@
-import { Alert } from "flowbite-react";
+"use client";
 import React from "react";
-import { RiErrorWarningLine } from "react-icons/ri";
+f;
 import { MdClose } from "react-icons/md";
-import { useState } from "react";
 
-const ErrorMessage = ({ message }) => {
-  const [visible, setVisible] = useState(true);
-
+const ErrorMessage = ({ message, onClose }) => {
   return (
     <div>
-      <Alert color="success" icon={RiErrorWarningLine}>
-        <span>
-          <p>
-            <span className="font-medium">Info alert!</span>
-            {message}
-          </p>
-        </span>
-      </Alert>
-      <button onClick={() => setVisible(!visible)}>
-        {<MdClose className="w-8 h-8" />}
-      </button>
+      <div>
+        <div
+          className="relative py-3 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg"
+          role="alert"
+        >
+          <p>{message}</p>
+          <span className="absolute inset-y-0 right-0 flex items-center mr-4">
+            <button onClick={onClose}>
+              {<MdClose className="w-4 h-4 inline" />}
+            </button>
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
